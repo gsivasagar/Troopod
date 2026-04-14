@@ -21,8 +21,8 @@ User → Next.js Frontend → FastAPI Orchestrator → {DOM Scraper, Vision Agen
 | Step | Component | What It Does |
 |------|-----------|-------------|
 | 1. Data Extraction | DOM Scraper (BeautifulSoup) | Fetches landing page HTML, extracts key text nodes (H1, H2, CTAs, paragraphs) with CSS selectors |
-| 2. Context Generation | Vision Agent (Gemini 2.0 Flash) | Analyzes the ad image to extract: hook, offer, audience, tone, keywords, CTA |
-| 3. CRO Copywriting | Copywriter Agent (Gemini 2.0 Flash) | Generates replacement text using ad context + original nodes, applying CRO principles |
+| 2. Context Generation | Vision Agent (Gemini Flash Latest) | Analyzes the ad image to extract: hook, offer, audience, tone, keywords, CTA |
+| 3. CRO Copywriting | Copywriter Agent (Gemini Flash Latest) | Generates replacement text using ad context + original nodes, applying CRO principles |
 | 4. Render & Return | Merger Module | Surgically replaces text in original HTML by CSS selector, preserving all layout/CSS/JS |
 
 ---
@@ -94,6 +94,7 @@ cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt  # Installs FastAPI, Uvicorn, Playwright, etc.
+playwright install               # Downloads the required browser binaries for Playwright
 
 # Create .env file
 cp .env.example .env
@@ -112,6 +113,14 @@ npm run dev
 
 ### Open the App
 Visit `http://localhost:3000` in your browser.
+
+---
+
+## 🚀 Deployment
+
+The project is structured to be seamlessly deployed with modern web services:
+- **Frontend**: Deploy easily using **Vercel**. Connect your repository and configure the `NEXT_PUBLIC_API_URL` environment variable to point to your backend.
+- **Backend**: Deploy on **Render** using a Web Service. Set the Build Command to `./build.sh` (which installs both python requirements and playwright binaries) and Start Command to `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
 
 ---
 
