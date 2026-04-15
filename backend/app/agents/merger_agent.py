@@ -11,7 +11,8 @@ def merge_copy_into_html(
     original_html: str,
     replacements: list[dict],
     color_overrides: dict = None,
-    custom_section: dict = None
+    custom_section: dict = None,
+    base_url: str = None
 ) -> dict:
     """
     Apply text replacements and insert personalized components into the original HTML.
@@ -110,6 +111,21 @@ def merge_copy_into_html(
                 "reason": "Applied personalized color palette",
                 "status": "applied"
             })
+            
+        # 4. Inject Base URL if present
+        if base_url:
+            head = soup.find('head')
+            if not head:
+                head = soup.new_tag("head")
+                soup.insert(0, head)
+            
+            # Remove existing base tags if any
+            for base in head.find_all('base'):
+                base.decompose()
+                
+            base_tag = soup.new_tag("base", href=base_url)
+            head.insert(0, base_tag)
+            print(f"[Merger] Injected <base href=\"{base_url}\">")
             
         # Validate the result still parses correctly
         modified_html = str(soup)

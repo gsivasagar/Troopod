@@ -104,7 +104,8 @@ class PersonalizationPipeline:
             state["original_html"], 
             state["replacements"], 
             state["color_overrides"],
-            state.get("custom_section")
+            state.get("custom_section"),
+            base_url=state["url"]
         )
         if not merge_result["success"]:
             print(f"[Graph] Merge failed: {merge_result['error']}")
