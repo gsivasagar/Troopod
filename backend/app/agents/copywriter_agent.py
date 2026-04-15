@@ -126,7 +126,7 @@ class CopywriterAgent:
                 "error": str or None
             }
         """
-        # Map DOM nodes to IDs to simplify model output
+                                                       
         id_to_node = {}
         nodes_for_model = []
         for i, node in enumerate(dom_nodes):
@@ -137,7 +137,7 @@ class CopywriterAgent:
                 "text": node["text"]
             })
             
-        # Build the prompt
+                          
         prompt = f"""{self.prompt}
 
 ---
@@ -176,7 +176,7 @@ Generate the personalized copy and banner content now. Output ONLY the JSON obje
                 output = CopywriterOutput(**parsed)
                 print(f"[CopywriterAgent] Pydantic validation successful. Replacements: {len(output.replacements)}")
                 
-                # Map IDs back to selectors and originals, and validate
+                                                                       
                 replacements_with_selectors = []
                 for r in output.replacements:
                     node = id_to_node.get(r.id)

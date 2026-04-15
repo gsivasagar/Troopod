@@ -6,7 +6,7 @@ import hashlib
 import time
 from typing import Optional
 
-# Simple in-memory cache (TTL: 1 hour)
+                                      
 _cache: dict[str, dict] = {}
 CACHE_TTL = 3600
 

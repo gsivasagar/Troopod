@@ -33,25 +33,25 @@ async def generate_personalized_page(
     Main endpoint: accepts ad creative image + landing page URL.
     Performs API gateway sanity checks and delegates to service.
     """
-    # 1. URL Sanity Check
+                         
     if not landing_page_url.startswith(("http://", "https://")):
         raise HTTPException(
             status_code=400, 
             detail="Invalid landing page URL. Must start with http:// or https://"
         )
         
-    # 2. Content Type Sanity Check
+                                  
     if not ad_image.content_type or not ad_image.content_type.startswith("image/"):
         raise HTTPException(
             status_code=400, 
             detail="Uploaded file must be an image."
         )
         
-    # Read image bytes
+                      
     image_bytes = await ad_image.read()
     
-    # 3. File Size Sanity Check (Limit to 10MB for large creatives)
-    MAX_SIZE = 10 * 1024 * 1024 # 10MB
+                                                                   
+    MAX_SIZE = 10 * 1024 * 1024       
     if len(image_bytes) > MAX_SIZE:
         raise HTTPException(
             status_code=400, 
@@ -64,5 +64,5 @@ async def generate_personalized_page(
             detail="Uploaded image file is empty."
         )
         
-    # Delegate to service passing clean bytes
+                                             
     return await service.personalize(image_bytes, landing_page_url)

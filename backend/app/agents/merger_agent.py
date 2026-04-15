@@ -55,7 +55,7 @@ def merge_copy_into_html(
         changes_failed = 0
         diff = []
         
-        # 1. Apply text replacements
+                                    
         for repl in replacements:
             selector = repl.get("selector", "")
             original_text = repl.get("original", "")
@@ -66,7 +66,7 @@ def merge_copy_into_html(
                 changes_failed += 1
                 continue
             
-            # Find and replace the text in the DOM
+                                                  
             replaced = _apply_replacement(soup, selector, original_text, new_text)
             
             if replaced:
@@ -88,7 +88,7 @@ def merge_copy_into_html(
                     "status": "failed"
                 })
         
-        # 2. Insert Custom Section if present
+                                             
         if custom_section:
             _insert_custom_section(soup, custom_section)
             changes_applied += 1
@@ -100,7 +100,7 @@ def merge_copy_into_html(
                 "status": "applied"
             })
             
-        # 3. Inject Style Overrides if present
+                                              
         if color_overrides:
             _inject_styles(soup, color_overrides)
             changes_applied += 1
@@ -112,14 +112,14 @@ def merge_copy_into_html(
                 "status": "applied"
             })
             
-        # 4. Inject Base URL if present
+                                       
         if base_url:
             head = soup.find('head')
             if not head:
                 head = soup.new_tag("head")
                 soup.insert(0, head)
             
-            # Remove existing base tags if any
+                                              
             for base in head.find_all('base'):
                 base.decompose()
                 
@@ -127,7 +127,7 @@ def merge_copy_into_html(
             head.insert(0, base_tag)
             print(f"[Merger] Injected <base href=\"{base_url}\">")
             
-        # Validate the result still parses correctly
+                                                    
         modified_html = str(soup)
         try:
             BeautifulSoup(modified_html, "lxml")
@@ -217,10 +217,10 @@ def _insert_custom_section(soup: BeautifulSoup, section: dict):
     if not body:
         return
         
-    # Create section container
+                              
     section_div = soup.new_tag("div", **{"class": f"troopod-custom-section troopod-{section.get('type', 'default')}"})
     
-    # Create content
+                    
     title = soup.new_tag("h2")
     title.string = section.get("title", "")
     
@@ -244,11 +244,11 @@ def _insert_custom_section(soup: BeautifulSoup, section: dict):
         cta.string = section.get("cta")
         section_div.append(cta)
         
-    # Insert at the top of body
+                               
     body.insert(0, section_div)
 
 
-# Tags that should NEVER be modified
+                                    
 _SKIP_TAGS = {'title', 'meta', 'link', 'script', 'style', 'noscript', 'head',
               'nav', 'header', 'footer', 'iframe', 'svg', 'path', 'form', 'input',
               'select', 'option', 'textarea', 'label', 'code', 'pre', 'body', 'html'}
@@ -277,7 +277,7 @@ def _apply_replacement(
     """
     body = soup.find('body') or soup
     
-    # Strategy 1: Try to find by ID selector
+                                            
     if selector.startswith("#") and "[" not in selector:
         elem_id = selector[1:]
         elem = body.find(id=elem_id)
@@ -285,7 +285,7 @@ def _apply_replacement(
             _replace_text_content(elem, original_text, new_text)
             return True
     
-    # Strategy 2: Try standard CSS selector (supports classes, tags, etc.)
+                                                                          
     try:
         index_match = re.search(r'\[(\d+)\]$', selector)
         target_index = int(index_match.group(1)) if index_match else 0
@@ -304,7 +304,7 @@ def _apply_replacement(
     except Exception:
         pass
         
-    # Strategy 3: Brute-force search by matching text content (body only)
+                                                                         
     for elem in body.find_all(True):
         if not _is_safe_to_replace(elem):
             continue

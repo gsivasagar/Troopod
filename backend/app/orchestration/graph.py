@@ -25,7 +25,7 @@ class PersonalizationPipeline:
         self.api_key = api_key
         self.max_iterations = config.MAX_ITERATIONS
         
-        # Instantiate agents
+                            
         self.vision_agent = VisionAgent(api_key=self.api_key)
         self.copywriter_agent = CopywriterAgent(api_key=self.api_key)
         self.designer_agent = DesignerAgent(api_key=self.api_key)
@@ -82,7 +82,7 @@ class PersonalizationPipeline:
         if not state.get("success", True): return {}
         
         print("[Graph] Entering generate_copy node")
-        time.sleep(5) # Rate limit buffer
+        time.sleep(5)                    
         copy_result = self.copywriter_agent.generate_personalized_copy(state["ad_context"], state["dom_nodes"])
         if not copy_result["success"]:
             return {"success": False, "error": f"Copy failed: {copy_result['error']}"}

@@ -16,7 +16,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS — allow Next.js frontend
+                               
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routes
+                
 app.include_router(router)
 
 if __name__ == "__main__":

@@ -60,7 +60,7 @@ export default function Home() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // URL validation
+
   const isValidUrl = useCallback((u: string) => {
     try {
       new URL(u);
@@ -72,7 +72,7 @@ export default function Home() {
 
   const canGenerate = adImage && url && isValidUrl(url) && !loading;
 
-  // File handling
+
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith("image/")) {
       setError("Please upload an image file (PNG, JPG, WEBP)");
@@ -102,7 +102,7 @@ export default function Home() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // Generate
+
   const handleGenerate = async () => {
     if (!canGenerate) return;
 
@@ -111,7 +111,7 @@ export default function Home() {
     setResult(null);
     setLoadingStep(0);
 
-    // Simulate step progression
+
     const stepInterval = setInterval(() => {
       setLoadingStep((prev) => Math.min(prev + 1, LOADING_STEPS.length - 1));
     }, 3000);
@@ -146,7 +146,7 @@ export default function Home() {
     }
   };
 
-  // Write HTML to iframe
+
   const writeToIframe = (iframeRef: HTMLIFrameElement | null, html: string) => {
     if (!iframeRef) return;
     const doc = iframeRef.contentDocument;
@@ -159,7 +159,6 @@ export default function Home() {
 
   return (
     <div className="app-container">
-      {/* Header */}
       <header className="header">
         <div className="logo">
           <div className="logo-icon">T</div>
@@ -167,10 +166,7 @@ export default function Home() {
           <span className="logo-badge">AI Beta</span>
         </div>
       </header>
-
-      {/* Main content */}
       <main className="main-content">
-        {/* Hero */}
         <section className="hero">
           <h1>Ad ↔ Landing Page Harmonizer</h1>
           <p>
@@ -179,10 +175,7 @@ export default function Home() {
             — boosting conversion with message consistency.
           </p>
         </section>
-
-        {/* Input Section */}
         <section className="input-section">
-          {/* Ad Upload Card */}
           <div className="card">
             <div className="card-label">
               <span className="card-label-icon">🎨</span>
@@ -245,8 +238,6 @@ export default function Home() {
               )}
             </div>
           </div>
-
-          {/* URL Input Card */}
           <div className="card">
             <div className="card-label">
               <span className="card-label-icon">🔗</span>
@@ -285,8 +276,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Generate Button */}
         <section className="generate-section">
           <button
             id="generate-btn"
@@ -297,8 +286,6 @@ export default function Home() {
             {loading ? "Harmonizing..." : "✨ Generate Personalized Page"}
           </button>
         </section>
-
-        {/* Loading State */}
         {loading && (
           <div className="loading-overlay">
             <div className="loading-spinner" />
@@ -323,8 +310,6 @@ export default function Home() {
             </div>
           </div>
         )}
-
-        {/* Error */}
         {error && (
           <div className="error-card">
             <span className="error-icon">⚠️</span>
@@ -342,8 +327,6 @@ export default function Home() {
             </div>
           </div>
         )}
-
-        {/* Results */}
         {result && (
           <section className="results-section">
             <div className="results-header">
@@ -357,8 +340,6 @@ export default function Home() {
                 </span>
               </div>
             </div>
-
-            {/* Ad Context */}
             <div className="ad-context-card">
               <div className="ad-context-title">
                 🧠 AI-Extracted Ad Context
@@ -415,8 +396,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* View Tabs */}
             <div className="view-tabs">
               {(
                 [
@@ -435,8 +414,6 @@ export default function Home() {
                 </button>
               ))}
             </div>
-
-            {/* Diff View */}
             {viewMode === "diff" && (
               <div className="diff-list">
                 {result.changes.diff.map((item, i) => (
@@ -466,8 +443,6 @@ export default function Home() {
                 ))}
               </div>
             )}
-
-            {/* Before View */}
             {viewMode === "before" && (
               <div className="preview-container">
                 <div className="preview-toolbar">
@@ -489,8 +464,6 @@ export default function Home() {
                 />
               </div>
             )}
-
-            {/* After View */}
             {viewMode === "after" && (
               <div className="preview-container">
                 <div className="preview-toolbar">
@@ -512,8 +485,6 @@ export default function Home() {
                 />
               </div>
             )}
-
-            {/* Split View */}
             {viewMode === "split" && (
               <div className="preview-split">
                 <div className="preview-container">
@@ -553,8 +524,6 @@ export default function Home() {
           </section>
         )}
       </main>
-
-      {/* Footer removed per user request */}
     </div>
   );
 }

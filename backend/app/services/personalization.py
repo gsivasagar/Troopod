@@ -21,7 +21,7 @@ class DefaultPersonalizationService(PersonalizationService):
     """Default implementation using LangGraph and Gemini."""
     
     async def personalize(self, image_bytes: bytes, landing_page_url: str) -> JSONResponse:
-        # Validate API key via config
+                                     
         try:
             config.validate()
             api_key = config.GEMINI_API_KEY
@@ -34,13 +34,13 @@ class DefaultPersonalizationService(PersonalizationService):
         if len(image_bytes) == 0:
             raise HTTPException(status_code=400, detail="Empty image data provided.")
         
-        # Check cache
+                     
         cache_key = make_cache_key(image_bytes, landing_page_url)
         cached = get_cached(cache_key)
         if cached:
             return JSONResponse(content=cached)
         
-        # Invoke Graph
+                      
         pipeline = PersonalizationPipeline(api_key=api_key)
         
         initial_state = {
@@ -55,7 +55,7 @@ class DefaultPersonalizationService(PersonalizationService):
             if not final_state.get("success", True):
                 raise HTTPException(status_code=502, detail=f"Pipeline failed: {final_state.get('error')}")
                 
-            # Build response
+                            
             response = {
                 "success": True,
                 "landing_page_url": landing_page_url,
@@ -72,7 +72,7 @@ class DefaultPersonalizationService(PersonalizationService):
                 "dom_nodes_extracted": len(final_state.get("dom_nodes", []))
             }
             
-            # Cache result
+                          
             set_cache(cache_key, response)
             
             return JSONResponse(content=response)
